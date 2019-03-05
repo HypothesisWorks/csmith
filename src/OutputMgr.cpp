@@ -275,11 +275,19 @@ OutputMgr::OutputHeader(int argc, char *argv[], unsigned long seed)
 			out << " (none)";
 		} else {
 			for (int i = 1; i < argc; ++i) {
+                string opt = argv[i];
+                // Skip printing our temporary output files.
+                if (opt == "-o") {
+                    i++;
+                    continue;
+                }
 				out << " " << argv[i];
 			}
 		}
 		out << endl;
-		out << " * Seed:      " << seed << endl;
+        // We suppress seed printing for Hypothesis generated programs.
+        (void)seed;
+		// out << " * Seed:      " << seed << endl;
 		out << " */" << endl;
 		out << endl;
 	}
