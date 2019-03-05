@@ -611,7 +611,7 @@ Function::make_return_const()
 		assert(return_type);
 		if (return_type->eType == eSimple)
 			assert(return_type->simple_type != eVoid);
-		Constant *c = Constant::make_random(return_type);
+		Constant *c = HYPOTHESIS_DRAW(Constant, return_type);
 		ERROR_RETURN();
 		this->ret_c = c;
 	}
@@ -647,7 +647,7 @@ Function::GenerateBody(const CGContext &prev_context)
 	if (is_builtin)
 		body = Block::make_dummy_block(cg_context);
 	else
-		body = Block::make_random(cg_context);
+		body = HYPOTHESIS_DRAW(Block, cg_context);
 	ERROR_RETURN();
 	body->set_depth_protect(true);
 
@@ -689,7 +689,7 @@ Function::generate_body_with_known_params(const CGContext &prev_context, Effect&
 	cg_context.flags = 0;
 
 	// Fill in the Function body.
-	body = Block::make_random(cg_context);
+	body = HYPOTHESIS_DRAW(Block, cg_context);
 	ERROR_RETURN();
 	body->set_depth_protect(true);
 

@@ -199,19 +199,19 @@ Expression::make_random(CGContext &cg_context, const Type* type, const CVQualifi
 	case eConstant:
 		if (type->eType == eSimple)
 			assert(type->simple_type != eVoid);
-		e = Constant::make_random(type);
+		e = HYPOTHESIS_DRAW(Constant, type);
 		break;
 	case eVariable:
-		e = ExpressionVariable::make_random(cg_context, type, qfer);
+		e = HYPOTHESIS_DRAW(ExpressionVariable, cg_context, type, qfer);
 		break;
 	case eFunction:
-		e = ExpressionFuncall::make_random(cg_context, type, qfer);
+		e = HYPOTHESIS_DRAW(ExpressionFuncall, cg_context, type, qfer);
 		break;
 	case eAssignment:
-		e = ExpressionAssign::make_random(cg_context, type, qfer);
+		e = HYPOTHESIS_DRAW(ExpressionAssign, cg_context, type, qfer);
 		break;
 	case eCommaExpr:
-		e = ExpressionComma::make_random(cg_context, type, qfer);
+		e = HYPOTHESIS_DRAW(ExpressionComma, cg_context, type, qfer);
 		break;
 	default: break;
 	}
@@ -280,19 +280,19 @@ Expression::make_random_param(CGContext &cg_context, const Type* type, const CVQ
 	case eConstant:
 		if (type->eType == eSimple)
 			assert(type->simple_type != eVoid);
-		e = Constant::make_random(type);
+		e = HYPOTHESIS_DRAW(Constant, type);
 		break;
 	case eVariable:
-		e = ExpressionVariable::make_random(cg_context, type, qfer, true);
+		e = HYPOTHESIS_DRAW(ExpressionVariable, cg_context, type, qfer, true);
 		break;
 	case eFunction:
-		e = ExpressionFuncall::make_random(cg_context, type, qfer);
+		e = HYPOTHESIS_DRAW(ExpressionFuncall, cg_context, type, qfer);
 		break;
 	case eAssignment:
-		e = ExpressionAssign::make_random(cg_context, type, qfer);
+		e = HYPOTHESIS_DRAW(ExpressionAssign, cg_context, type, qfer);
 		break;
 	case eCommaExpr:
-		e = ExpressionComma::make_random(cg_context, type, qfer);
+		e = HYPOTHESIS_DRAW(ExpressionComma, cg_context, type, qfer);
 		break;
 	default: break;
 	}

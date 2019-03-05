@@ -60,7 +60,7 @@ StatementExpr::make_random(CGContext &cg_context)
 	Effect pre_effect = cg_context.get_accum_effect();
 	FactMgr* fm = get_fact_mgr(&cg_context);
 	vector<const Fact*> facts_copy = fm->global_facts;
-	invoke = FunctionInvocation::make_random(false, cg_context, 0, 0);
+	invoke = HYPOTHESIS_DRAW(FunctionInvocation, false, cg_context, 0, 0);
 	ERROR_GUARD(NULL);
 	if (invoke->failed) {
 		cg_context.reset_effect_accum(pre_effect);

@@ -166,7 +166,7 @@ ArrayVariable::CreateArrayVariable(const CGContext& cg_context, Block* blk, cons
 		if (type->eType == eSimple || type->eType == eStruct) {
 			unsigned int init_num = pure_rnd_upto(total_size - 1);
 			for (size_t i=0; i<init_num; i++) {
-				Expression* e = Constant::make_random(type);
+				Expression* e = HYPOTHESIS_DRAW(Constant, type);
 				var->add_init_value(e);
 			}
 		}
@@ -174,7 +174,7 @@ ArrayVariable::CreateArrayVariable(const CGContext& cg_context, Block* blk, cons
 		for (size_t i=0; i<init_num; i++) {
 			Expression* e = NULL;
 			if (type->eType != ePointer || CGOptions::strict_const_arrays()) {
-				e = Constant::make_random(type);
+				e = HYPOTHESIS_DRAW(Constant, type);
 			} else {
 				e = VariableSelector::make_init_value(Effect::READ, cg_context, type, qfer, blk);
 			}

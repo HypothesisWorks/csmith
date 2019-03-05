@@ -41,6 +41,8 @@
 #include "DFSRndNumGenerator.h"
 #include "SimpleDeltaRndNumGenerator.h"
 
+#include "HypothesisInterface.h"
+
 using namespace std;
 
 #ifndef HAVE_LRAND48
@@ -132,7 +134,7 @@ AbsRndNumGenerator::rnd_shuffle(unsigned int n)
 unsigned long
 AbsRndNumGenerator::genrand(void)
 {
-	return lrand48();
+	return hypothesisGetRand();
 }
 
 std::string
@@ -170,4 +172,3 @@ AbsRndNumGenerator::get_dec1()
 {
 	return AbsRndNumGenerator::dec1;
 }
-

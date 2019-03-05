@@ -189,7 +189,8 @@ am_csmith_OBJECTS = AbsExtension.$(OBJEXT) \
 	FunctionInvocation.$(OBJEXT) \
 	FunctionInvocationBinary.$(OBJEXT) \
 	FunctionInvocationUnary.$(OBJEXT) \
-	FunctionInvocationUser.$(OBJEXT) KleeExtension.$(OBJEXT) \
+	FunctionInvocationUser.$(OBJEXT) HypothesisInterface.$(OBJEXT) \
+	KleeExtension.$(OBJEXT) \
 	Lhs.$(OBJEXT) LinearSequence.$(OBJEXT) MspFilters.$(OBJEXT) \
 	OutputMgr.$(OBJEXT) PartialExpander.$(OBJEXT) \
 	Probabilities.$(OBJEXT) RandomNumber.$(OBJEXT) \

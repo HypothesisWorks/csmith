@@ -107,7 +107,7 @@ FunctionInvocation *
 ExtensionMgr::MakeFuncInvocation(Function *curFunc, CGContext &cg_context)
 {
 	if (ExtensionMgr::extension_ == NULL) {
-		return FunctionInvocation::make_random(curFunc, cg_context);
+		return HYPOTHESIS_DRAW(FunctionInvocation, curFunc, cg_context);
 	}
 	else {
 		std::vector<ExtensionValue *> &values = ExtensionMgr::extension_->get_values();

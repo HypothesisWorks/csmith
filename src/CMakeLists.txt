@@ -132,6 +132,8 @@ set(csmith_SOURCES
   FunctionInvocationUnary.h
   FunctionInvocationUser.cpp
   FunctionInvocationUser.h
+  HypothesisInterface.cpp
+  HypothesisInterface.h
   KleeExtension.cpp
   KleeExtension.h
   Lhs.cpp

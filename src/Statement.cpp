@@ -271,34 +271,34 @@ Statement::make_random(CGContext &cg_context,
 		assert(!"unknown Statement type");
 		break;
 	case eAssign:
-		s = StatementAssign::make_random(cg_context);
+		s = HYPOTHESIS_DRAW(StatementAssign, cg_context);
 		break;
 	case eBlock:
-		s = Block::make_random(cg_context);
+		s = HYPOTHESIS_DRAW(Block, cg_context);
 		break;
 	case eFor:
-		s = StatementFor::make_random(cg_context);
+		s = HYPOTHESIS_DRAW(StatementFor, cg_context);
 		break;
 	case eIfElse:
-		s = StatementIf::make_random(cg_context);
+		s = HYPOTHESIS_DRAW(StatementIf, cg_context);
 		break;
 	case eInvoke:
-		s = StatementExpr::make_random(cg_context);
+		s = HYPOTHESIS_DRAW(StatementExpr, cg_context);
 		break;
 	case eReturn:
-		s = StatementReturn::make_random(cg_context);
+		s = HYPOTHESIS_DRAW(StatementReturn, cg_context);
 		break;
 	case eBreak:
-		s = StatementBreak::make_random(cg_context);
+		s = HYPOTHESIS_DRAW(StatementBreak, cg_context);
 		break;
 	case eContinue:
-		s = StatementContinue::make_random(cg_context);
+		s = HYPOTHESIS_DRAW(StatementContinue, cg_context);
 		break;
 	case eGoto:
-		s = StatementGoto::make_random(cg_context);
+		s = HYPOTHESIS_DRAW(StatementGoto, cg_context);
 		break;
 	case eArrayOp:
-		s = StatementArrayOp::make_random(cg_context);
+		s = HYPOTHESIS_DRAW(StatementArrayOp, cg_context);
 		break;
 	}
 
@@ -308,7 +308,7 @@ Statement::make_random(CGContext &cg_context,
 	}
 	// sometimes make_random may return 0 for various reasons. keep generating
 	if (s == 0) {
-		return make_random(cg_context);
+		return HYPOTHESIS_DRAW(Statement, cg_context);
 	}
 	s->func = cg_context.get_current_func();
 	s->parent = cg_context.get_current_block();

@@ -506,7 +506,7 @@ VariableSelector::create_and_initialize(Effect::Access access, const CGContext &
 
 	if (rnd_flipcoin(NewArrayVariableProb)) {
 		if (CGOptions::strict_const_arrays()) {
-			init = Constant::make_random(t);
+			init = HYPOTHESIS_DRAW(Constant, t);
 		} else {
 			init = make_init_value(access, cg_context, t, qfer, blk);
 		}
@@ -826,7 +826,7 @@ VariableSelector::make_init_value(Effect::Access access, const CGContext &cg_con
 		ERROR_GUARD(NULL);
 		if (t->eType == eSimple)
 			assert(t->simple_type != eVoid);
-		return Constant::make_random(t);
+		return HYPOTHESIS_DRAW(Constant, t);
 	}
 	ERROR_GUARD(NULL);
 	// for pointers, take address of a random visible local variable
@@ -1342,7 +1342,7 @@ VariableSelector::create_random_array(const CGContext& cg_context)
 	CVQualifiers qfer;
 	qfer.add_qualifiers(false, false);
 
-	Expression* init = Constant::make_random(type);
+	Expression* init = HYPOTHESIS_DRAW(Constant, type);
 	ArrayVariable* av = ArrayVariable::CreateArrayVariable(cg_context, blk, name, type, init, &qfer, NULL);
 	AllVars.push_back(av);
 

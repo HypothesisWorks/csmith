@@ -60,7 +60,7 @@ CoverageTestExtension::GenerateValues()
 	for (i = values_.begin(); i != values_.end(); ++i) {
 		const Type *type = (*i)->get_type();
 		for (int j = 0; j < inputs_size_; ++j) {
-			Constant *c = Constant::make_random(type);
+			Constant *c = HYPOTHESIS_DRAW(Constant, type);
 			test_values_.push_back(c);
 		}
 	}

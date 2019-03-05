@@ -82,7 +82,7 @@ ExpressionFuncall::make_random(CGContext &cg_context, const Type* type, const CV
 	Effect effect_stm = cg_context.get_effect_stm();
 	FactMgr* fm = get_fact_mgr(&cg_context);
 	vector<const Fact*> facts_copy = fm->global_facts;
-	FunctionInvocation *fi = FunctionInvocation::make_random(std_func, cg_context, type, qfer);
+	FunctionInvocation *fi = HYPOTHESIS_DRAW(FunctionInvocation, std_func, cg_context, type, qfer);
 	ERROR_GUARD(NULL);
 
 	if (fi->failed) {
@@ -91,7 +91,7 @@ ExpressionFuncall::make_random(CGContext &cg_context, const Type* type, const CV
 		cg_context.reset_effect_accum(effect_accum);
 		cg_context.reset_effect_stm(effect_stm);
 		fm->restore_facts(facts_copy);
-		e = ExpressionVariable::make_random(cg_context, type, qfer);
+		e = HYPOTHESIS_DRAW(ExpressionVariable, cg_context, type, qfer);
 		delete fi;
 	}
 	else {

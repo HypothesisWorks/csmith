@@ -59,7 +59,7 @@ SplatExtension::GenerateValues()
 	vector<ExtensionValue *>::iterator i;
 	for (i = values_.begin(); i != values_.end(); ++i) {
 		const Type *type = (*i)->get_type();
-		Constant *c =  Constant::make_random(type);
+		Constant *c = HYPOTHESIS_DRAW(Constant, type);
 		(*i)->set_value(c);
 	}
 }

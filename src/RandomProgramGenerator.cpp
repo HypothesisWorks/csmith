@@ -97,6 +97,8 @@ FUTURE:
 #include "platform.h"
 #include "random.h"
 
+#include "HypothesisInterface.h"
+
 using namespace std;
 
 //#define PACKAGE_STRING "csmith 1.1.1"
@@ -1467,6 +1469,8 @@ main(int argc, char **argv)
 	}
 	generator->goGenerator();
 	delete generator;
+
+	hypothesisTerminateConnection();
 
 //	file.close();
 	return 0;

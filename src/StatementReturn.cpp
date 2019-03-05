@@ -62,7 +62,7 @@ StatementReturn::make_random(CGContext &cg_context)
 	FactMgr* fm = get_fact_mgr(&cg_context);
 	assert(fm);
 
-	ExpressionVariable* ev = ExpressionVariable::make_random(cg_context, curr_func->return_type, &curr_func->rv->qfer, false, true);
+	ExpressionVariable* ev = HYPOTHESIS_DRAW(ExpressionVariable, cg_context, curr_func->return_type, &curr_func->rv->qfer, false, true);
 	// typecast, if needed.
 	ev->check_and_set_cast(curr_func->return_type);
 	// XXX

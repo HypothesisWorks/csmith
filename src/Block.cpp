@@ -156,7 +156,7 @@ Block::make_random(CGContext &cg_context, bool looping)
 	if (b->stm_id == 1)
 		BREAK_NOP;			// for debugging
 	for (i = 0; i <= max; ++i) {
-		Statement *s = Statement::make_random(cg_context);
+		Statement *s = HYPOTHESIS_DRAW(Statement, cg_context);
 		// In the exhaustive mode, Statement::make_random could return NULL;
 		if (!s)
 			break;
@@ -429,7 +429,7 @@ Block::append_return_stmt(CGContext& cg_context)
 	FactMgr* fm = get_fact_mgr_for_func(func);
 	FactVec pre_facts = fm->global_facts;
 	cg_context.get_effect_stm().clear();
-	Statement* sr = Statement::make_random(cg_context, eReturn);
+	Statement* sr = HYPOTHESIS_DRAW(Statement, cg_context, eReturn);
 	ERROR_GUARD(NULL);
 	stms.push_back(sr);
 	fm->makeup_new_var_facts(pre_facts, fm->global_facts);
@@ -480,7 +480,7 @@ Block::append_nested_loop(CGContext& cg_context)
 	FactVec pre_facts = fm->global_facts;
 	cg_context.get_effect_stm().clear();
 
-	Statement* sf = Statement::make_random(cg_context, eFor);
+	Statement* sf = HYPOTHESIS_DRAW(Statement, cg_context, eFor);
 	ERROR_GUARD(NULL);
 	stms.push_back(sf);
 	fm->makeup_new_var_facts(pre_facts, fm->global_facts);

@@ -35,6 +35,8 @@
 #include <vector>
 #include <map>
 #include "Effect.h"
+#include "HypothesisInterface.h"
+
 using namespace std;
 
 // Flags..

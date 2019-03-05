@@ -248,7 +248,7 @@ StatementFor::make_iteration(CGContext& cg_context, StatementAssign*& init, Expr
 	//const FunctionInvocationBinary fb(eAdd, &exp_var, c_incr);
 	//const ExpressionFuncall funcall(fb);
 	Lhs *lhs1 = dynamic_cast<Lhs*>(lhs->clone());
-	//SafeOpFlags *flags2 = SafeOpFlags::make_random(sOpAssign);
+	//SafeOpFlags *flags2 = HYPOTHESIS_DRAW(SafeOpFlags, sOpAssign);
 	ERROR_GUARD_AND_DEL3(NULL, init, test, lhs1);
 
 	Constant * c_incr = Constant::make_int(incr_n);
@@ -283,7 +283,7 @@ StatementFor::make_random(CGContext &cg_context)
 
 	// create CGContext for body
 	CGContext body_cg_context(cg_context, cg_context.rw_directive, iv, bound);
-	Block *body = Block::make_random(body_cg_context, true);
+	Block *body = HYPOTHESIS_DRAW(Block, body_cg_context, true);
 	ERROR_GUARD_AND_DEL3(NULL, init, test, incr);
 
 	StatementFor* sf = new StatementFor(cg_context.get_current_block(), *init, *test, *incr, *body);
@@ -324,7 +324,7 @@ StatementFor::make_random_array_loop(const CGContext &cg_context)
 	RWDirective rwd(no_reads, no_writes, all_must_reads, all_must_writes);
 	// create CGContext for loop
 	CGContext loop_cg_context(cg_context, &rwd, NULL, 0);
-	StatementFor* sf = make_random(loop_cg_context);
+	StatementFor* sf = HYPOTHESIS_DRAW(StatementFor, loop_cg_context);
 	return sf;
 }
 

@@ -157,7 +157,7 @@ FunctionInvocation::make_random_unary(CGContext &cg_context, const Type* type)
 
 	FunctionInvocation *fi = FunctionInvocationUnary::CreateFunctionInvocationUnary(cg_context, op, flags);
 
-	Expression *operand = Expression::make_random(cg_context, type);
+	Expression *operand = HYPOTHESIS_DRAW(Expression, cg_context, type);
 	ERROR_GUARD_AND_DEL1(NULL, fi);
 
 	fi->param_value.push_back(operand);
@@ -199,7 +199,7 @@ FunctionInvocation::make_random_binary(CGContext &cg_context, const Type* type)
 		assert(!rhs_type->is_float() && "rhs_type is float!");
 	}
 
-	Expression *lhs = Expression::make_random(lhs_cg_context, lhs_type);
+	Expression *lhs = HYPOTHESIS_DRAW(Expression, lhs_cg_context, lhs_type);
 	ERROR_GUARD_AND_DEL1(NULL, fi);
 	Expression *rhs = 0;
 
@@ -217,7 +217,7 @@ FunctionInvocation::make_random_binary(CGContext &cg_context, const Type* type)
 	// or if the LHS is pure (not merely side-effect-free),
 	// then we can generate the RHS under the original effect context.
 	if (IsOrderedStandardFunc(op)) { // || lhs_eff_accum.is_pure()) { TODO: need more thoughts on the purity issue.
-		rhs = Expression::make_random(cg_context, rhs_type);
+		rhs = HYPOTHESIS_DRAW(Expression, cg_context, rhs_type);
 	}
 	else {
 		// Otherwise, the RHS must be generated under the combined effect
@@ -234,11 +234,11 @@ FunctionInvocation::make_random_binary(CGContext &cg_context, const Type* type)
 			if (!not_constant) {
 				rhs = Constant::make_random_upto(lhs_type->SizeInBytes() * 8);
 			} else {
-				rhs = Expression::make_random(rhs_cg_context, rhs_type, NULL, false, true, tt);
+				rhs = HYPOTHESIS_DRAW(Expression, rhs_cg_context, rhs_type, NULL, false, true, tt);
 			}
 		}
 		else {
-			rhs = Expression::make_random(rhs_cg_context, rhs_type);
+			rhs = HYPOTHESIS_DRAW(Expression, rhs_cg_context, rhs_type);
 			// avoid divide by zero or possible zero (reached by pointer comparison)
 			if ((op == eMod || op == eDiv) && (rhs->equals(0) || rhs->is_0_or_1()) &&
 				!lhs_type->is_float() && !rhs_type->is_float()) {
@@ -295,7 +295,7 @@ FunctionInvocation::make_random_binary_ptr_comparison(CGContext &cg_context)
 	Effect lhs_eff_accum;
 	CGContext lhs_cg_context(cg_context, cg_context.get_effect_context(), &lhs_eff_accum);
 	lhs_cg_context.flags |= NO_DANGLING_PTR;
-	Expression *lhs = Expression::make_random(lhs_cg_context, type, 0, true);
+	Expression *lhs = HYPOTHESIS_DRAW(Expression, lhs_cg_context, type, 0, true);
 	ERROR_GUARD_AND_DEL1(NULL, fi);
 	cg_context.merge_param_context(lhs_cg_context, true);
 
@@ -315,7 +315,7 @@ FunctionInvocation::make_random_binary_ptr_comparison(CGContext &cg_context)
 		// need to pass in NO_DANGLING_PTR flag
 		unsigned int old_flag = cg_context.flags;
 		cg_context.flags |= NO_DANGLING_PTR;
-		rhs = Expression::make_random(cg_context, type, 0, true, false, tt);
+		rhs = HYPOTHESIS_DRAW(Expression, cg_context, type, 0, true, false, tt);
 		cg_context.flags = old_flag;
 	} else {
 		// Otherwise, the RHS must be generated under the combined effect
@@ -326,7 +326,7 @@ FunctionInvocation::make_random_binary_ptr_comparison(CGContext &cg_context)
 
 		CGContext rhs_cg_context(cg_context, rhs_eff_context, &rhs_eff_accum);
 		rhs_cg_context.flags |= NO_DANGLING_PTR;
-		rhs = Expression::make_random(rhs_cg_context, type, 0, true, false, tt);
+		rhs = HYPOTHESIS_DRAW(Expression, rhs_cg_context, type, 0, true, false, tt);
 		cg_context.merge_param_context(rhs_cg_context, true);
 	}
 	ERROR_GUARD_AND_DEL2(NULL, fi, lhs);

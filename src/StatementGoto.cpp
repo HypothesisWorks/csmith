@@ -113,7 +113,7 @@ StatementGoto::make_random(CGContext &cg_context)
 		ERROR_GUARD(NULL);
 		other_stm = ok_stms[stm_id];
 		cg_context.get_effect_stm().clear();
-		//Expression* test = Expression::make_random(cg_context, get_int_type(), true, true, eVariable);
+		//Expression* test = HYPOTHESIS_DRAW(Expression, cg_context, get_int_type(), true, true, eVariable);
 		// use a variable that is already read in the context to avoid introducing conflict by the condition
 		const Variable* cond_var = NULL;
 		if (back_edge) {

@@ -56,7 +56,7 @@ ExpressionAssign::make_random(CGContext &cg_context, const Type* type, const CVQ
 		qf = CVQualifiers::random_qualifiers(type, Effect::WRITE, cg_context, true);
 		qfer = &qf;
 	}
-	StatementAssign* sa = StatementAssign::make_random(cg_context, type, qfer);
+	StatementAssign* sa = HYPOTHESIS_DRAW(StatementAssign, cg_context, type, qfer);
 	FactMgr* fm = get_fact_mgr(&cg_context);
 	FactMgr::update_fact_for_assign(sa, fm->global_facts);
 	ExpressionAssign* ea = new ExpressionAssign(sa);
