@@ -1,5 +1,12 @@
 -*- mode: Text -*-
 
+This is a patched version of Csmith designed to support reducing Csmith generated programs with Hypothesis (https://github.com/HypothesisWorks/hypothesis/).
+It is very much a proof of concept designed to validate how well Hypothesis performs with real world random test-case generators written without its internals in mind,
+and not intended for serious usage.
+
+You almost certainly want the original Csmith, which can be found at https://github.com/csmith-project/csmith.
+
+
                   Csmith --- a random generator of C programs
 
               Xuejun Yang, Yang Chen, Eric Eide, and John Regehr
