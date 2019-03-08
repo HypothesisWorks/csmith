@@ -9,12 +9,12 @@ import click
 from hypothesis.searchstrategy import SearchStrategy
 from hypothesis._strategies import defines_strategy
 from hypothesis.internal.conjecture.data import ConjectureData
+from hypothesis.errors import InvalidArgument
 
 
-CSMITH = os.path.join(os.path.dirname(__file__), "src", "csmith")
+HERE = os.path.dirname(__file__)
 
-if not os.path.exists(CSMITH):
-    raise ImportError("csmith binary has not been built")
+CSMITH = os.path.join(HERE, "src", "csmith")
 
 
 class CsmithState(object):
@@ -113,6 +113,12 @@ class CsmithStrategy(SearchStrategy):
 @defines_strategy
 def csmith():
     """A strategy for generating C programs, using Csmith."""
+
+    if not os.path.exists(CSMITH):
+        subprocess.check_call(["./configure"], cwd=HERE)
+        subprocess.check_call(["make"], cwd=HERE)
+        assert os.path.exists(CSMITH)
+
     return CsmithStrategy()
 
 
