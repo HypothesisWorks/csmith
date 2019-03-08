@@ -45,7 +45,7 @@ class CsmithState(object):
             if not c:
                 continue
             n = c[0]
-            return pin.read(n).decode('ascii')
+            return pin.read(n).decode("ascii")
 
     def cleanup_process(self):
         if self.__proc is not None:
@@ -61,15 +61,24 @@ class CsmithState(object):
         try:
             self.__tempdir = tempfile.mkdtemp()
             env = dict(os.environ)
-            self.__command_channel = os.path.join(self.__tempdir, "hypothesisfifo.commands")
-            self.__result_channel = os.path.join(self.__tempdir, "hypothesisfifo.results")
+            self.__command_channel = os.path.join(
+                self.__tempdir, "hypothesisfifo.commands"
+            )
+            self.__result_channel = os.path.join(
+                self.__tempdir, "hypothesisfifo.results"
+            )
             env["HYPOTHESISFIFOCOMMANDS"] = self.__command_channel
             env["HYPOTHESISFIFORESULTS"] = self.__result_channel
             os.mkfifo(self.__result_channel)
             os.mkfifo(self.__command_channel)
             output_name = os.path.join(self.__tempdir, "gen.c")
 
-            self.__proc = subprocess.Popen([CSMITH, "-o", output_name], env=env, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            self.__proc = subprocess.Popen(
+                [CSMITH, "-o", output_name],
+                env=env,
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+            )
             while True:
                 line = self.read_command()
                 if line == "TERMINATE":
@@ -89,7 +98,9 @@ class CsmithState(object):
                 # Terminated improperly
                 elif not line:
                     self.cleanup_process()
-                    assert False, "Improper response from subprocess that terminated normally"
+                    assert (
+                        False
+                    ), "Improper response from subprocess that terminated normally"
                     break
                 else:
                     raise Exception("Unknown command %r" % (line,))
@@ -105,10 +116,11 @@ class CsmithState(object):
             if self.__tempdir is not None:
                 shutil.rmtree(self.__tempdir)
 
-            
+
 class CsmithStrategy(SearchStrategy):
     def do_draw(self, data):
         return CsmithState(data).gen()
+
 
 @defines_strategy
 def csmith():
@@ -130,15 +142,15 @@ def main():
 
 
 @main.command()
-@click.argument('filename')
+@click.argument("filename")
 def show(filename):
     """Show the generated program associated with a previous Hypothesis
     representation of it."""
-    with open(filename, 'rb') as i:
+    with open(filename, "rb") as i:
         data = ConjectureData.for_buffer(i.read())
 
     print(data.draw(csmith()))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
