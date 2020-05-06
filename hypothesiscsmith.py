@@ -56,7 +56,11 @@ class CsmithState(object):
                 self.__proc.wait(timeout=1)
 
             if self.__proc.returncode != 0:
-                raise Exception("Subprocess call terminated abnormally")
+                with open(self.__errfile) as i:
+                    raise Exception(
+                        f"Subprocess call terminated abnormally with return "
+                        f"code {self.__proc.returncode} and output {repr(i.read())}"
+                    )
 
     def gen(self):
         assert self.__tempdir is None
@@ -75,12 +79,15 @@ class CsmithState(object):
             os.mkfifo(self.__command_channel)
             output_name = os.path.join(self.__tempdir, "gen.c")
 
-            self.__proc = subprocess.Popen(
-                [CSMITH, "-o", output_name],
-                env=env,
-                stdout=subprocess.DEVNULL,
-                stderr=subprocess.DEVNULL,
-            )
+            self.__errfile = os.path.join(self.__tempdir, "stderr")
+
+            with open(self.__errfile, "w") as o:
+                self.__proc = subprocess.Popen(
+                    [CSMITH, "-o", output_name],
+                    env=env,
+                    stdout=o,
+                    stderr=o,
+                )
             while True:
                 line = self.read_command()
                 if line == "TERMINATE":
