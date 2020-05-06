@@ -53,6 +53,8 @@ class CsmithState(object):
                 self.__proc.wait(timeout=1)
             except subprocess.TimeoutExpired:
                 self.__proc.kill()
+                self.__proc.wait(timeout=1)
+
             if self.__proc.returncode != 0:
                 raise Exception("Subprocess call terminated abnormally")
 
