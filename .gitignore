@@ -26,3 +26,19 @@ platform.info
 
 # Files made by Csmith-generated programs.
 vol_addr.txt
+
+
+# vim files
+
+*.swp
+
+# Python and Hypothesis files
+
+__pycache__/
+*.pyc
+
+# Misc build files
+config.h
+src/git_version.cpp
+src/git_version.txt
+stamp-h1
