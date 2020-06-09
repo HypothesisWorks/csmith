@@ -6,8 +6,8 @@ import shutil
 import struct
 import click
 
-from hypothesis.searchstrategy import SearchStrategy
-from hypothesis._strategies import defines_strategy
+from hypothesis.strategies._internal.strategies import SearchStrategy
+from hypothesis.strategies._internal.core import defines_strategy
 from hypothesis.internal.conjecture.data import ConjectureData
 from hypothesis.errors import InvalidArgument
 
