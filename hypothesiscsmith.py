@@ -10,6 +10,7 @@ from hypothesis.strategies._internal.strategies import SearchStrategy
 from hypothesis.strategies._internal.core import defines_strategy
 from hypothesis.internal.conjecture.data import ConjectureData
 from hypothesis.errors import InvalidArgument
+from threading import RLock
 
 
 HERE = os.path.dirname(__file__)
@@ -130,15 +131,21 @@ class CsmithStrategy(SearchStrategy):
     def do_draw(self, data):
         return CsmithState(data).gen()
 
+INSTALL_LOCK = RLock()
 
 @defines_strategy
 def csmith():
     """A strategy for generating C programs, using Csmith."""
 
     if not os.path.exists(CSMITH):
-        subprocess.check_call(["./configure"], cwd=HERE)
-        subprocess.check_call(["make"], cwd=HERE)
-        assert os.path.exists(CSMITH)
+        try:
+            INSTALL_LOCK.acquire()
+            if not os.path.exists(CSMITH):
+                subprocess.check_call(["./configure"], cwd=HERE)
+                subprocess.check_call(["make"], cwd=HERE)
+        finally:
+            INSTALL_LOCK.release()
+    assert os.path.exists(CSMITH)
 
     return CsmithStrategy()
 
